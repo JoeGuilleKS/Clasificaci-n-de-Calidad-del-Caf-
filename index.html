@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Clasificación de Calidad del Café</title>
+  <style>
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #f0f4f8;
+    padding: 40px;
+    max-width: 600px;
+    margin: auto;
+    color: #333;
+  }
+
+  h1 {
+    text-align: center;
+    color: #2c3e50;
+    margin-bottom: 30px;
+  }
+
+  label {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 15px;
+    font-weight: 500;
+  }
+
+  input {
+    width: 100px;
+    padding: 6px 8px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+    background-color: #fff;
+    box-shadow: inset 0 1px 2px rgba(0,0,0,0.05);
+    transition: border-color 0.3s ease;
+  }
+
+  input:focus {
+    border-color: #3498db;
+    outline: none;
+  }
+
+  button {
+    display: block;
+    width: 100%;
+    background-color: #3498db;
+    color: white;
+    font-weight: bold;
+    border: none;
+    padding: 12px;
+    font-size: 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 30px;
+    transition: background-color 0.3s ease;
+  }
+
+  button:hover {
+    background-color: #2980b9;
+  }
+
+  #resultado {
+    margin-top: 30px;
+    padding: 20px;
+    background: #ecf0f1;
+    border-left: 6px solid #3498db;
+    font-size: 1.2em;
+    font-weight: bold;
+    border-radius: 6px;
+    color: #2c3e50;
+  }
+</style>
+
+</head>
+<body>
+
+  <h1>Clasificación de Calidad del Café</h1>
+
+  <label>Acidez (0 - 14): <input type="number" id="acidez" min="0" max="14" step="0.1"></label>
+  <label>Cafeína (0 - 100): <input type="number" id="cafeina" min="0" max="100" step="1"></label>
+  <label>Humedad (0 - 100): <input type="number" id="humedad" min="0" max="100" step="1"></label>
+  <label>Aroma (1 - 10): <input type="number" id="aroma" min="1" max="10" step="1"></label>
+
+  <button onclick="evaluar()">Evaluar Calidad</button>
+
+  <div id="resultado">📊 Resultado: <strong>-</strong></div>
+
+  <script>
+    let modelo;
+
+    async function cargarModelo() {
+      const res = await fetch('model.json');
+      modelo = await res.json();
+    }
+
+    function evaluarMembresia(valor, [a, b, c]) {
+      if (valor <= a || valor >= c) return 0;
+      if (valor === b) return 1;
+      return valor < b
+        ? (valor - a) / (b - a)
+        : (c - valor) / (c - b);
+    }
+
+    function fuzzyInput(nombre, valor) {
+      const variable = modelo.entradas.find(e => e.nombre === nombre);
+      const grados = {};
+      for (const [etiqueta, puntos] of Object.entries(variable.membresias)) {
+        grados[etiqueta] = evaluarMembresia(valor, puntos);
+      }
+      return grados;
+    }
+
+    function evaluar() {
+      const acidez = parseFloat(document.getElementById('acidez').value);
+      const cafeina = parseFloat(document.getElementById('cafeina').value);
+      const humedad = parseFloat(document.getElementById('humedad').value);
+      const aroma = parseFloat(document.getElementById('aroma').value);
+
+      if ([acidez, cafeina, humedad, aroma].some(isNaN)) {
+        alert("Completa todos los campos numéricos");
+        return;
+      }
+
+      const entrada = {
+        acidez: fuzzyInput('acidez', acidez),
+        cafeina: fuzzyInput('cafeina', cafeina),
+        humedad: fuzzyInput('humedad', humedad),
+        aroma: fuzzyInput('aroma', aroma),
+      };
+
+      const resultados = { baja: 0, media: 0, alta: 0 };
+
+      for (const regla of modelo.reglas) {
+        let minGrado = 1;
+
+        if (regla.si) {
+          for (const [key, label] of Object.entries(regla.si)) {
+            minGrado = Math.min(minGrado, entrada[key][label] || 0);
+          }
+        } else if (regla.si_o) {
+          let maxGrado = 0;
+          for (const [key, label] of Object.entries(regla.si_o)) {
+            maxGrado = Math.max(maxGrado, entrada[key][label] || 0);
+          }
+          minGrado = maxGrado;
+        }
+
+        resultados[regla.entonces] = Math.max(resultados[regla.entonces], minGrado);
+      }
+
+      const salida = modelo.salida;
+      const centroides = {
+        baja: salida.membresias.baja[1],
+        media: salida.membresias.media[1],
+        alta: salida.membresias.alta[1]
+      };
+
+      let numerador = 0;
+      let denominador = 0;
+      for (const nivel of ['baja', 'media', 'alta']) {
+        numerador += resultados[nivel] * centroides[nivel];
+        denominador += resultados[nivel];
+      }
+
+      let calidad = "-";
+      if (denominador > 0) {
+        const salidaVal = numerador / denominador;
+        calidad = salidaVal <= 0.39 ? "Baja"
+                : salidaVal <= 0.69 ? "Media"
+                : "Alta";
+        document.getElementById('resultado').innerHTML = `📊 Resultado: Calidad <strong>${calidad.toUpperCase()}</strong><br>AND (valor: ${salidaVal.toFixed(2)})`;
+      } else {
+        document.getElementById('resultado').innerHTML = `📊 Resultado: <strong>Indeterminado</strong>`;
+      }
+    }
+
+    cargarModelo();
+  </script>
+</body>
+</html>

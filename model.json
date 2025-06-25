@@ -1,0 +1,160 @@
+{
+  "nombre_modelo": "Evaluador de Calidad de Café",
+  "entradas": [
+    {
+      "nombre": "acidez",
+      "rango": [0, 14],
+      "membresias": {
+        "baja": [0, 2, 5],
+        "media": [5.1, 6.5, 8],
+        "alta": [8.1, 10.5, 14]
+      }
+    },
+    {
+      "nombre": "cafeina",
+      "rango": [0, 100],
+      "membresias": {
+        "baja": [0, 10, 30],
+        "media": [31, 50, 70],
+        "alta": [71, 85, 100]
+      }
+    },
+    {
+      "nombre": "humedad",
+      "rango": [0, 100],
+      "membresias": {
+        "baja": [0, 15, 35],
+        "media": [36, 50, 70],
+        "alta": [71, 85, 100]
+      }
+    },
+    {
+      "nombre": "aroma",
+      "rango": [1, 10],
+      "membresias": {
+        "bajo": [1, 2, 4],
+        "medio": [5, 6, 7],
+        "alto": [8, 9, 10]
+      }
+    }
+  ],
+  "salida": {
+    "nombre": "calidad",
+    "rango": [0, 1],
+    "membresias": {
+      "baja": [0.0, 0.0, 0.39],
+      "media": [0.4, 0.5, 0.69],
+      "alta": [0.7, 1.0, 1.0]
+    }
+  },
+  "reglas": [
+  { "si": { "acidez": "baja", "cafeina": "baja", "humedad": "baja", "aroma": "bajo" }, "entonces": "baja" },
+  { "si": { "acidez": "baja", "cafeina": "baja", "humedad": "baja", "aroma": "medio" }, "entonces": "media" },
+  { "si": { "acidez": "baja", "cafeina": "baja", "humedad": "baja", "aroma": "alto" }, "entonces": "media" },
+
+  { "si": { "acidez": "baja", "cafeina": "baja", "humedad": "media", "aroma": "bajo" }, "entonces": "baja" },
+  { "si": { "acidez": "baja", "cafeina": "baja", "humedad": "media", "aroma": "medio" }, "entonces": "media" },
+  { "si": { "acidez": "baja", "cafeina": "baja", "humedad": "media", "aroma": "alto" }, "entonces": "media" },
+
+  { "si": { "acidez": "baja", "cafeina": "baja", "humedad": "alta", "aroma": "bajo" }, "entonces": "baja" },
+  { "si": { "acidez": "baja", "cafeina": "baja", "humedad": "alta", "aroma": "medio" }, "entonces": "baja" },
+  { "si": { "acidez": "baja", "cafeina": "baja", "humedad": "alta", "aroma": "alto" }, "entonces": "media" },
+
+  { "si": { "acidez": "baja", "cafeina": "media", "humedad": "baja", "aroma": "bajo" }, "entonces": "media" },
+  { "si": { "acidez": "baja", "cafeina": "media", "humedad": "baja", "aroma": "medio" }, "entonces": "media" },
+  { "si": { "acidez": "baja", "cafeina": "media", "humedad": "baja", "aroma": "alto" }, "entonces": "media" },
+
+  { "si": { "acidez": "baja", "cafeina": "media", "humedad": "media", "aroma": "bajo" }, "entonces": "baja" },
+  { "si": { "acidez": "baja", "cafeina": "media", "humedad": "media", "aroma": "medio" }, "entonces": "media" },
+  { "si": { "acidez": "baja", "cafeina": "media", "humedad": "media", "aroma": "alto" }, "entonces": "media" },
+
+  { "si": { "acidez": "baja", "cafeina": "media", "humedad": "alta", "aroma": "bajo" }, "entonces": "baja" },
+  { "si": { "acidez": "baja", "cafeina": "media", "humedad": "alta", "aroma": "medio" }, "entonces": "baja" },
+  { "si": { "acidez": "baja", "cafeina": "media", "humedad": "alta", "aroma": "alto" }, "entonces": "media" },
+
+  { "si": { "acidez": "baja", "cafeina": "alta", "humedad": "baja", "aroma": "bajo" }, "entonces": "media" },
+  { "si": { "acidez": "baja", "cafeina": "alta", "humedad": "baja", "aroma": "medio" }, "entonces": "media" },
+  { "si": { "acidez": "baja", "cafeina": "alta", "humedad": "baja", "aroma": "alto" }, "entonces": "alta" },
+
+  { "si": { "acidez": "baja", "cafeina": "alta", "humedad": "media", "aroma": "bajo" }, "entonces": "media" },
+  { "si": { "acidez": "baja", "cafeina": "alta", "humedad": "media", "aroma": "medio" }, "entonces": "media" },
+  { "si": { "acidez": "baja", "cafeina": "alta", "humedad": "media", "aroma": "alto" }, "entonces": "alta" },
+
+  { "si": { "acidez": "baja", "cafeina": "alta", "humedad": "alta", "aroma": "bajo" }, "entonces": "baja" },
+  { "si": { "acidez": "baja", "cafeina": "alta", "humedad": "alta", "aroma": "medio" }, "entonces": "media" },
+  { "si": { "acidez": "baja", "cafeina": "alta", "humedad": "alta", "aroma": "alto" }, "entonces": "media" },
+
+  { "si": { "acidez": "media", "cafeina": "baja", "humedad": "baja", "aroma": "bajo" }, "entonces": "baja" },
+  { "si": { "acidez": "media", "cafeina": "baja", "humedad": "baja", "aroma": "medio" }, "entonces": "media" },
+  { "si": { "acidez": "media", "cafeina": "baja", "humedad": "baja", "aroma": "alto" }, "entonces": "media" },
+
+  { "si": { "acidez": "media", "cafeina": "baja", "humedad": "media", "aroma": "bajo" }, "entonces": "baja" },
+  { "si": { "acidez": "media", "cafeina": "baja", "humedad": "media", "aroma": "medio" }, "entonces": "media" },
+  { "si": { "acidez": "media", "cafeina": "baja", "humedad": "media", "aroma": "alto" }, "entonces": "media" },
+
+  { "si": { "acidez": "media", "cafeina": "baja", "humedad": "alta", "aroma": "bajo" }, "entonces": "baja" },
+  { "si": { "acidez": "media", "cafeina": "baja", "humedad": "alta", "aroma": "medio" }, "entonces": "media" },
+  { "si": { "acidez": "media", "cafeina": "baja", "humedad": "alta", "aroma": "alto" }, "entonces": "media" },
+
+  { "si": { "acidez": "media", "cafeina": "media", "humedad": "baja", "aroma": "bajo" }, "entonces": "media" },
+  { "si": { "acidez": "media", "cafeina": "media", "humedad": "baja", "aroma": "medio" }, "entonces": "media" },
+  { "si": { "acidez": "media", "cafeina": "media", "humedad": "baja", "aroma": "alto" }, "entonces": "alta" },
+
+  { "si": { "acidez": "media", "cafeina": "media", "humedad": "media", "aroma": "bajo" }, "entonces": "media" },
+  { "si": { "acidez": "media", "cafeina": "media", "humedad": "media", "aroma": "medio" }, "entonces": "media" },
+  { "si": { "acidez": "media", "cafeina": "media", "humedad": "media", "aroma": "alto" }, "entonces": "alta" },
+
+  { "si": { "acidez": "media", "cafeina": "media", "humedad": "alta", "aroma": "bajo" }, "entonces": "baja" },
+  { "si": { "acidez": "media", "cafeina": "media", "humedad": "alta", "aroma": "medio" }, "entonces": "media" },
+  { "si": { "acidez": "media", "cafeina": "media", "humedad": "alta", "aroma": "alto" }, "entonces": "alta" },
+
+  { "si": { "acidez": "media", "cafeina": "alta", "humedad": "baja", "aroma": "bajo" }, "entonces": "media" },
+  { "si": { "acidez": "media", "cafeina": "alta", "humedad": "baja", "aroma": "medio" }, "entonces": "alta" },
+  { "si": { "acidez": "media", "cafeina": "alta", "humedad": "baja", "aroma": "alto" }, "entonces": "alta" },
+
+  { "si": { "acidez": "media", "cafeina": "alta", "humedad": "media", "aroma": "bajo" }, "entonces": "media" },
+  { "si": { "acidez": "media", "cafeina": "alta", "humedad": "media", "aroma": "medio" }, "entonces": "alta" },
+  { "si": { "acidez": "media", "cafeina": "alta", "humedad": "media", "aroma": "alto" }, "entonces": "alta" },
+
+  { "si": { "acidez": "media", "cafeina": "alta", "humedad": "alta", "aroma": "bajo" }, "entonces": "media" },
+  { "si": { "acidez": "media", "cafeina": "alta", "humedad": "alta", "aroma": "medio" }, "entonces": "media" },
+  { "si": { "acidez": "media", "cafeina": "alta", "humedad": "alta", "aroma": "alto" }, "entonces": "alta" },
+
+  { "si": { "acidez": "alta", "cafeina": "baja", "humedad": "baja", "aroma": "bajo" }, "entonces": "baja" },
+  { "si": { "acidez": "alta", "cafeina": "baja", "humedad": "baja", "aroma": "medio" }, "entonces": "media" },
+  { "si": { "acidez": "alta", "cafeina": "baja", "humedad": "baja", "aroma": "alto" }, "entonces": "media" },
+
+  { "si": { "acidez": "alta", "cafeina": "baja", "humedad": "media", "aroma": "bajo" }, "entonces": "baja" },
+  { "si": { "acidez": "alta", "cafeina": "baja", "humedad": "media", "aroma": "medio" }, "entonces": "media" },
+  { "si": { "acidez": "alta", "cafeina": "baja", "humedad": "media", "aroma": "alto" }, "entonces": "media" },
+
+  { "si": { "acidez": "alta", "cafeina": "baja", "humedad": "alta", "aroma": "bajo" }, "entonces": "baja" },
+  { "si": { "acidez": "alta", "cafeina": "baja", "humedad": "alta", "aroma": "medio" }, "entonces": "media" },
+  { "si": { "acidez": "alta", "cafeina": "baja", "humedad": "alta", "aroma": "alto" }, "entonces": "media" },
+
+  { "si": { "acidez": "alta", "cafeina": "media", "humedad": "baja", "aroma": "bajo" }, "entonces": "media" },
+  { "si": { "acidez": "alta", "cafeina": "media", "humedad": "baja", "aroma": "medio" }, "entonces": "media" },
+  { "si": { "acidez": "alta", "cafeina": "media", "humedad": "baja", "aroma": "alto" }, "entonces": "alta" },
+
+  { "si": { "acidez": "alta", "cafeina": "media", "humedad": "media", "aroma": "bajo" }, "entonces": "media" },
+  { "si": { "acidez": "alta", "cafeina": "media", "humedad": "media", "aroma": "medio" }, "entonces": "media" },
+  { "si": { "acidez": "alta", "cafeina": "media", "humedad": "media", "aroma": "alto" }, "entonces": "alta" },
+
+  { "si": { "acidez": "alta", "cafeina": "media", "humedad": "alta", "aroma": "bajo" }, "entonces": "media" },
+  { "si": { "acidez": "alta", "cafeina": "media", "humedad": "alta", "aroma": "medio" }, "entonces": "media" },
+  { "si": { "acidez": "alta", "cafeina": "media", "humedad": "alta", "aroma": "alto" }, "entonces": "alta" },
+
+  { "si": { "acidez": "alta", "cafeina": "alta", "humedad": "baja", "aroma": "bajo" }, "entonces": "media" },
+  { "si": { "acidez": "alta", "cafeina": "alta", "humedad": "baja", "aroma": "medio" }, "entonces": "alta" },
+  { "si": { "acidez": "alta", "cafeina": "alta", "humedad": "baja", "aroma": "alto" }, "entonces": "alta" },
+
+  { "si": { "acidez": "alta", "cafeina": "alta", "humedad": "media", "aroma": "bajo" }, "entonces": "media" },
+  { "si": { "acidez": "alta", "cafeina": "alta", "humedad": "media", "aroma": "medio" }, "entonces": "alta" },
+  { "si": { "acidez": "alta", "cafeina": "alta", "humedad": "media", "aroma": "alto" }, "entonces": "alta" },
+
+  { "si": { "acidez": "alta", "cafeina": "alta", "humedad": "alta", "aroma": "bajo" }, "entonces": "media" },
+  { "si": { "acidez": "alta", "cafeina": "alta", "humedad": "alta", "aroma": "medio" }, "entonces": "media" },
+  { "si": { "acidez": "alta", "cafeina": "alta", "humedad": "alta", "aroma": "alto" }, "entonces": "alta" }
+  ]
+
+}
